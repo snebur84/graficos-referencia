@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guia Prático de Gráficos em Python</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;600&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { 
+      font-family: 'Plus Jakarta Sans', sans-serif; 
+      background-color: #0b0f19; 
+      color: #f8fafc;
+      overflow-x: hidden;
+    }
+    .slide-stage {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      padding: 20px;
+    }
+    .slide-card {
+      width: 1280px;
+      height: 720px;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 20px;
+      padding: 48px 64px;
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+    .slide-card.active {
+      display: flex;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.99); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    code, pre {
+      font-family: 'Fira Code', monospace;
+    }
+    .nav-btn {
+      background: #1e293b;
+      color: #f8fafc;
+      border: 1px solid #334155;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover {
+      background: #2563eb;
+      border-color: #3b82f6;
+    }
+    .nav-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      background: #0f172a;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="slide-stage">
+
+    <!-- SLIDE 1: CAPA -->
+    <div class="slide-card active" id="slide-1">
+      <div>
+        <p class="text-blue-400 font-bold uppercase tracking-widest text-sm mb-3">
+          <i class="fa-solid fa-chart-line mr-2"></i> Visualização de Dados em Python
+        </p>
+        <h1 class="text-5xl font-extrabold text-white leading-tight mb-4 max-w-4xl">
+          Guia Prático de Gráficos com Matplotlib & Seaborn
+        </h1>
+        <p class="text-slate-400 text-xl max-w-2xl leading-relaxed mb-6">
+          Apresentação completa por tipo de gráfico: Exemplo Visual, Utilização, Código Prático, Padronização de Dados e Glossário de Siglas.
+        </p>
+      </div>
+      <div class="flex items-center gap-6 pt-6 border-t border-slate-800">
+        <div class="flex items-center gap-3 text-slate-300">
+          <span class="w-3 h-3 rounded-full bg-blue-500"></span> 7 Tipos de Gráficos (inclui Pizza/Rosca)
+        </div>
+        <div class="flex items-center gap-3 text-slate-300">
+          <span class="w-3 h-3 rounded-full bg-emerald-500"></span> Códigos Práticos
+        </div>
+        <div class="flex items-center gap-3 text-slate-300">
+          <span class="w-3 h-3 rounded-full bg-purple-500"></span> Glossário de Siglas (KDE, IQR, NaN, 2D)
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== GRÁFICO 1: LINHAS ==================== -->
+    <!-- SLIDE 2: Linhas - Exemplo Visual -->
+    <div class="slide-card" id="slide-2">
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-blue-400 font-bold text-xs uppercase tracking-wider">01. Séries Temporais</span>
+          <span class="text-slate-500 text-xs font-semibold">Exemplo Visual</span>
+        </div>
+        <h2 class="text-3xl font-extrabold text-white mb-4">Gráfico de Linhas: Exemplo Visual</h2>
+        <div class="flex gap-8 items-center">
+          <div class="w-1/2 h-[380px] rounded-xl overflow-hidden border border-slate-700 bg-slate-900/90 p-4 flex flex-col justify-center items-center">
+            <svg viewBox="0 0 500 300" class="w-full h-full text-blue-400" xmlns="http://www.w3.org/2000/svg">
+              <line x1="50" y1="250" x2="470" y2="250" stroke="#475569" stroke-width="2"/>
+              <line x1="50" y1="30" x2="50" y2="250" stroke="#475569" stroke-width="2"/>
+              <line x1="50" y1="190" x2="470" y2="190" stroke="#334155" stroke-dasharray="4"/>
+              <line x1="50" y1="130" x2="470" y2="130" stroke="#334155" stroke-dasharray="4"/>
+              <line x1="50" y1="70" x2="470" y2="70" stroke="#334155" stroke-dasharray="4"/>
+              <path d="M 50 210 L 110 180 L 170 195 L 230 140 L 290 150 L 350 90 L 410 105 L 470 50" fill="none" stroke="#3b82f6" stroke-width="4"/>
+              <circle cx="50" cy="210" r="6" fill="#60a5fa"/>
+              <circle cx="110" cy="180" r="6" fill="#60a5fa"/>
+              <circle cx="170" cy="195" r="6" fill="#60a5fa"/>
+              <circle cx="230" cy="140" r="6" fill="#60a5fa"/>
+              <circle cx="290" cy="150" r="6" fill="#60a5fa"/>
+              <circle cx="350" cy="90" r="6" fill="#60a5fa"/>
+              <circle cx="410" cy="105" r="6" fill="#60a5fa"/>
+              <circle cx="470" cy="50" r="6" fill="#60a5fa"/>
+              <text x="50" y="275" fill="#94a3b8" font-size="12" text-anchor="middle">Jan</text>
+              <text x="170" y="275" fill="#94a3b8" font-size="12" text-anchor="middle">Mar</text>
+              <text x="290" y="275" fill="#94a3b8" font-size="12" text-anchor="middle">Mai</text>
+              <text x="410" y="275" fill="#94a3b8" font-size="12" text-anchor="middle">Jul</text>
+            </svg>
+          </div>
+          <div class="w-1/2 space-y-4">
+            <div class="bg-slate-800/40 p-4 rounded-xl border border-slate-700/50">
+              <h4 class="font-bold text-white mb-1"><i class="fa-solid fa-check text-emerald-400 mr-2"></i>Eixo X Contínuo</h4>
+              <p class="text-slate-400 text-sm">Massa de dados cronológica e bem definida sequencialmente.</p>
+            </div>
+            <div class="bg-slate-800/40 p-4 rounded-xl border border-slate-700/50">
+              <h4 class="font-bold text-white mb-1"><i class="fa-solid fa-check text-emerald-400 mr-2"></i>Marcadores de Pontos</h4>
+              <p class="text-slate-400 text-sm">Destacam cada valor amostrado ao longo do trecho da curva.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: Linhas - Utilização -->
+    <div class="slide-card" id="slide-3">
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-blue-400 font-bold text-xs uppercase tracking-wider">01. Séries Temporais</span>
+          <span class="text-slate-500 text-xs font-semibold">Gráfico de Linhas</span>
+        </div>
+        <h2 class="text-3xl font-extrabold text-white mb-6">Gráfico de Linhas: Quando e Por Que Usar?</h2>
+        <div class="grid grid-cols-3 gap-6">
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <div class="text-blue-400 text-2xl mb-3"><i class="fa-solid fa-arrow-trend-up"></i></div>
+            <h3 class="text-lg font-bold text-white mb-2">Evolução Temporal</h3>
+            <p class="text-slate-400 text-sm">Ideal para rastrear mudanças contínuas ao longo de dias, meses ou anos.</p>
+          </div>
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <div class="text-blue-400 text-2xl mb-3"><i class="fa-solid fa-chart-line"></i></div>
+            <h3 class="text-lg font-bold text-white mb-2">Identificação de Tendências</h3>
+            <p class="text-slate-400 text-sm">Destaca sazonalidades, picos, quedas bruscas e pontos de inflexão.</p>
+          </div>
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <div class="text-blue-400 text-2xl mb-3"><i class="fa-solid fa-layer-group"></i></div>
+            <h3 class="text-lg font-bold text-white mb-2">Comparação de Séries</h3>
+            <p class="text-slate-400 text-sm">Permite comparar múltiplas linhas (séries) em uma mesma escala vertical.</p>
+          </div>
+        </div>
+      </div>
+      <div class="bg-blue-950/40 border border-blue-800/40 p-4 rounded-xl text-blue-200 text-sm flex items-center gap-3">
+        <i class="fa-solid fa-circle-info text-blue-400 text-lg"></i>
+        <span><strong>Aplicações típicas:</strong> Histórico de vendas, cotações de ações, variação de temperatura e contagem de usuários ativos.</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: Linhas - Código -->
+    <div class="slide-card" id="slide-4">
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-blue-400 font-bold text-xs uppercase tracking-wider">01. Séries Temporais</span>
+          <span class="text-slate-500 text-xs font-semibold">Código Python</span>
+        </div>
+        <h2 class="text-3xl font-extrabold text-white mb-4">Como Criar com Seaborn & Matplotlib</h2>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+          <pre class="text-sm text-slate-200 leading-relaxed"><code><span class="text-purple-400">import</span> matplotlib.pyplot <span class="text-purple-400">as</span> plt
+<span class="text-purple-400">import</span> seaborn <span class="text-purple-400">as</span> sns
+
+sns.set_theme(style=<span class="text-emerald-300">"whitegrid"</span>)
+df_flights = sns.load_dataset(<span class="text-emerald-300">"flights"</span>)
+
+fig, ax = plt.subplots(figsize=(<span class="text-amber-300">10</span>, <span class="text-amber-300">4</span>))
+
+<span class="text-slate-500"># Criando o gráfico de linhas</span>
+sns.lineplot(
+    data=df_flights[df_flights[<span class="text-emerald-300">"year"</span>] == <span class="text-amber-300">1960</span>],
+    x=<span class="text-emerald-300">"month"</span>, y=<span class="text-emerald-300">"passengers"</span>,
+    marker=<span class="text-emerald-300">"o"</span>, color=<span class="text-emerald-300">"#2563eb"</span>, linewidth=<span class="text-amber-300">2</span>, ax=ax
+)
+
+ax.set_title(<span class="text-emerald-300">"Evolução do Número de Passageiros (1960)"</span>, fontweight=<span class="text-emerald-300">"bold"</span>)
+ax.set_xlabel(<span class="text-emerald-300">"Mês"</span>)
+ax.set_ylabel(<span class="text-emerald-300">"Total de Passageiros"</span>)
+
+plt.tight_layout()
+plt.show()</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: Linhas - Padronização dos Dados -->
+    <div class="slide-card" id="slide-5">
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-blue-400 font-bold text-xs uppercase tracking-wider">01. Séries Temporais</span>
+          <span class="text-slate-500 text-xs font-semibold">Padronização de Dados</span>
+        </div>
+        <h2 class="text-3xl font-extrabold text-white mb-6">Como Padronizar os Dados para Linhas</h2>
+        <div class="grid grid-cols-2 gap-6">
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <h3 class="font-bold text-blue-400 mb-3 text-lg"><i class="fa-solid fa-calendar mr-2"></i>Eixo X em Formato Datetime</h3>
+            <p class="text-slate-300 text-sm mb-3">Garanta que as datas estejam ordenadas cronologicamente e no formato correto.</p>
+            <div class="bg-slate-900 p-3 rounded border border-slate-800 text-xs font-mono text-emerald-300">
+              df['data'] = pd.to_datetime(df['data'])<br>
+              df = df.sort_values('data')
+            </div>
+          </div>
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <h3 class="font-bold text-blue-400 mb-3 text-lg"><i class="fa-solid fa-table-cells mr-2"></i>Estrutura de Dados Longa (Tidy)</h3>
+            <p class="text-slate-300 text-sm mb-3">Mantenha variáveis explicativas em colunas separadas para utilizar o argumento <code class="text-amber-300">hue</code>.</p>
+            <div class="bg-slate-900 p-3 rounded border border-slate-800 text-xs font-mono text-slate-300">
+              Data | Categoria | Valor<br>
+              2024-01-01 | Produto A | 150<br>
+              2024-01-01 | Produto B | 200
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== GRÁFICO 2: BARRAS ==================== -->
+    <!-- SLIDE 6: Barras - Exemplo Visual -->
+    <div class="slide-card" id="slide-6">
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-emerald-400 font-bold text-xs uppercase tracking-wider">02. Comparação Categórica</span>
+          <span class="text-slate-500 text-xs font-semibold">Exemplo Visual</span>
+        </div>
+        <h2 class="text-3xl font-extrabold text-white mb-4">Gráfico de Barras: Exemplo Visual</h2>
+        <div class="flex gap-8 items-center">
+          <div class="w-1/2 h-[380px] rounded-xl overflow-hidden border border-slate-700 bg-slate-900/90 p-4 flex flex-col justify-center items-center">
+            <svg viewBox="0 0 500 300" class="w-full h-full text-emerald-400" xmlns="http://www.w3.org/2000/svg">
+              <line x1="50" y1="250" x2="470" y2="250" stroke="#475569" stroke-width="2"/>
+              <line x1="50" y1="30" x2="50" y2="250" stroke="#475569" stroke-width="2"/>
+              <line x1="50" y1="190" x2="470" y2="190" stroke="#334155" stroke-dasharray="4"/>
+              <line x1="50" y1="130" x2="470" y2="130" stroke="#334155" stroke-dasharray="4"/>
+              <line x1="50" y1="70" x2="470" y2="70" stroke="#334155" stroke-dasharray="4"/>
+              <rect x="80" y="100" width="45" height="150" fill="#10b981" rx="4"/>
+              <rect x="135" y="140" width="45" height="110" fill="#34d399" rx="4"/>
+              <rect x="220" y="70" width="45" height="180" fill="#10b981" rx="4"/>
+              <rect x="275" y="90" width="45" height="160" fill="#34d399" rx="4"/>
+              <rect x="360" y="120" width="45" height="130" fill="#10b981" rx="4"/>
+              <rect x="415" y="150" width="45" height="100" fill="#34d399" rx="4"/>
+              <text x="130" y="275" fill="#94a3b8" font-size="12" text-anchor="middle">Quinta</text>
+              <text x="270" y="275" fill="#94a3b8" font-size="12" text-anchor="middle">Sexta</text>
+              <text x="410" y="275" fill="#94a3b8" font-size="12" text-anchor="middle">Sábado</text>
+            </svg>
+          </div>
+          <div class="w-1/2 space-y-4">
+            <div class="bg-slate-800/40 p-4 rounded-xl border border-slate-700/50">
+              <h4 class="font-bold text-white mb-1"><i class="fa-solid fa-check text-emerald-400 mr-2"></i>Eixo Categórico Definido</h4>
+              <p class="text-slate-400 text-sm">Cada barra representa uma categoria bem delimitada no eixo X ou Y.</p>
+            </div>
+            <div class="bg-slate-800/40 p-4 rounded-xl border border-slate-700/50">
+              <h4 class="font-bold text-white mb-1"><i class="fa-solid fa-check text-emerald-400 mr-2"></i>Altura Proporcional ao Valor</h4>
+              <p class="text-slate-400 text-sm">A percepção visual é baseada no comprimento ou altura relativa do retângulo.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7: Barras - Utilização -->
+    <div class="slide-card" id="slide-7">
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-emerald-400 font-bold text-xs uppercase tracking-wider">02. Comparação Categórica</span>
+          <span class="text-slate-500 text-xs font-semibold">Gráfico de Barras</span>
+        </div>
+        <h2 class="text-3xl font-extrabold text-white mb-6">Gráfico de Barras: Quando Utilizar?</h2>
+        <div class="grid grid-cols-3 gap-6">
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <div class="text-emerald-400 text-2xl mb-3"><i class="fa-solid fa-chart-column"></i></div>
+            <h3 class="text-lg font-bold text-white mb-2">Comparação Direta</h3>
+            <p class="text-slate-400 text-sm">Compara métricas numéricas (ex: média ou soma) entre categorias discretas.</p>
+          </div>
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <div class="text-emerald-400 text-2xl mb-3"><i class="fa-solid fa-bars-staggered"></i></div>
+            <h3 class="text-lg font-bold text-white mb-2">Agrupamento Secundário</h3>
+            <p class="text-slate-400 text-sm">Permite dividir categorias principais em subgrupos usando o parâmetro <code class="text-amber-300">hue</code>.</p>
+          </div>
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <div class="text-emerald-400 text-2xl mb-3"><i class="fa-solid fa-arrow-down-wide-short"></i></div>
+            <h3 class="text-lg font-bold text-white mb-2">Ranking e Ordem</h3>
+            <p class="text-slate-400 text-sm">Facilita ordenar itens do maior para o menor para destacar líderes e retardatários.</p>
+          </div>
+        </div>
+      </div>
+      <div class="bg-emerald-950/40 border border-emerald-800/40 p-4 rounded-xl text-emerald-200 text-sm flex items-center gap-3">
+        <i class="fa-solid fa-circle-info text-emerald-400 text-lg"></i>
+        <span><strong>Dica:</strong> Se os nomes das categorias forem longos, inverta os eixos para criar barras horizontais.</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 8: Barras - Código -->
+    <div class="slide-card" id="slide-8">
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-emerald-400 font-bold text-xs uppercase tracking-wider">02. Comparação Categórica</span>
+          <span class="text-slate-500 text-xs font-semibold">Código Python</span>
+        </div>
+        <h2 class="text-3xl font-extrabold text-white mb-4">Como Criar com Seaborn & Matplotlib</h2>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+          <pre class="text-sm text-slate-200 leading-relaxed"><code><span class="text-purple-400">import</span> matplotlib.pyplot <span class="text-purple-400">as</span> plt
+<span class="text-purple-400">import</span> seaborn <span class="text-purple-400">as</span> sns
+
+df_tips = sns.load_dataset(<span class="text-emerald-300">"tips"</span>)
+fig, ax = plt.subplots(figsize=(<span class="text-amber-300">8</span>, <span class="text-amber-300">4</span>))
+
+<span class="text-slate-500"># Gráfico de barras agregando média do valor total</span>
+sns.barplot(
+    data=df_tips, x=<span class="text-emerald-300">"day"</span>, y=<span class="text-emerald-300">"total_bill"</span>,
+    hue=<span class="text-emerald-300">"sex"</span>, palette=<span class="text-emerald-300">"Set2"</span>, errorbar=<span class="text-purple-400">None</span>, ax=ax
+)
+
+ax.set_title(<span class="text-emerald-300">"Média do Valor da Conta por Dia e Gênero"</span>, fontweight=<span class="text-emerald-300">"bold"</span>)
+ax.set_ylabel(<span class="text-emerald-300">"Média da Conta ($)"</span>)
+ax.legend(title=<span class="text-emerald-300">"Gênero"</span>)
+
+plt.tight_layout()
+plt.show()</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 9: Barras - Padronização dos Dados -->
+    <div class="slide-card" id="slide-9">
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-emerald-400 font-bold text-xs uppercase tracking-wider">02. Comparação Categórica</span>
+          <span class="text-slate-500 text-xs font-semibold">Padronização de Dados</span>
+        </div>
+        <h2 class="text-3xl font-extrabold text-white mb-6">Como Padronizar os Dados para Barras</h2>
+        <div class="grid grid-cols-2 gap-6">
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <h3 class="font-bold text-emerald-400 mb-3 text-lg"><i class="fa-solid fa-calculator mr-2"></i>Dados Brutos vs Pré-Agregados</h3>
+            <p class="text-slate-300 text-sm mb-2">Se os dados forem brutos, o Seaborn calcula a média automaticamente. Para dados pré-agregados, defina <code class="text-amber-300">errorbar=None</code>.</p>
+          </div>
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <h3 class="font-bold text-emerald-400 mb-3 text-lg"><i class="fa-solid fa-font mr-2"></i>Tratamento de Rótulos</h3>
+            <p class="text-slate-300 text-sm mb-2">Evite categorias com nomes excessivamente longos ou formate os dados invertendo a orientação (<code class="text-amber-300">y="categoria"</code>).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== GRÁFICO 3: DISPERSÃO ==================== -->
+    <!-- SLIDE 10: Dispersão - Exemplo Visual -->
+    <div class="slide-card" id="slide-10">
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-purple-400 font-bold text-xs uppercase tracking-wider">03. Correlação & Relação</span>
+          <span class="text-slate-500 text-xs font-semibold">Exemplo Visual</span>
+        </div>
+        <h2 class="text-3xl font-extrabold text-white mb-4">Gráfico de Dispersão: Exemplo Visual</h2>
+        <div class="flex gap-8 items-center">
+          <div class="w-1/2 h-[380px] rounded-xl overflow-hidden border border-slate-700 bg-slate-900/90 p-4 flex flex-col justify-center items-center">
+            <svg viewBox="0 0 500 300" class="w-full h-full text-purple-400" xmlns="http://www.w3.org/2000/svg">
+              <line x1="50" y1="250" x2="470" y2="250" stroke="#475569" stroke-width="2"/>
+              <line x1="50" y1="30" x2="50" y2="250" stroke="#475569" stroke-width="2"/>
+              <line x1="50" y1="190" x2="470" y2="190" stroke="#334155" stroke-dasharray="4"/>
+              <line x1="50" y1="130" x2="470" y2="130" stroke="#334155" stroke-dasharray="4"/>
+              <line x1="50" y1="70" x2="470" y2="70" stroke="#334155" stroke-dasharray="4"/>
+              <line x1="80" y1="220" x2="440" y2="60" stroke="#a855f7" stroke-width="2" stroke-dasharray="6"/>
+              <circle cx="90" cy="210" r="5" fill="#c084fc"/>
+              <circle cx="130" cy="190" r="5" fill="#a855f7"/>
+              <circle cx="160" cy="205" r="5" fill="#c084fc"/>
+              <circle cx="200" cy="160" r="5" fill="#a855f7"/>
+              <circle cx="220" cy="140" r="5" fill="#c084fc"/>
+              <circle cx="270" cy="130" r="5" fill="#a855f7"/>
+              <circle cx="310" cy="110" r="5" fill="#c084fc"/>
+              <circle cx="350" cy="95" r="5" fill="#a855f7"/>
+              <circle cx="390" cy="80" r="5" fill="#c084fc"/>
+              <circle cx="430" cy="55" r="5" fill="#a855f7"/>
+              <text x="260" y="280" fill="#94a3b8" font-size="12" text-anchor="middle">Variável X (Contínua)</text>
+            </svg>
+          </div>
+          <div class="w-1/2 space-y-4">
+            <div class="bg-slate-800/40 p-4 rounded-xl border border-slate-700/50">
+              <h4 class="font-bold text-white mb-1"><i class="fa-solid fa-check text-purple-400 mr-2"></i>Eixos X e Y Contínuos</h4>
+              <p class="text-slate-400 text-sm">Ambas as variáveis representam valores numéricos reais.</p>
+            </div>
+            <div class="bg-slate-800/40 p-4 rounded-xl border border-slate-700/50">
+              <h4 class="font-bold text-white mb-1"><i class="fa-solid fa-check text-purple-400 mr-2"></i>Cores e Tamanhos Secundários</h4>
+              <p class="text-slate-400 text-sm">Uso de cores (<code class="text-amber-300">hue</code>) para representar grupos.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 11: Dispersão - Utilização -->
+    <div class="slide-card" id="slide-11">
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-purple-400 font-bold text-xs uppercase tracking-wider">03. Correlação & Relação</span>
+          <span class="text-slate-500 text-xs font-semibold">Scatter Plot</span>
+        </div>
+        <h2 class="text-3xl font-extrabold text-white mb-6">Gráfico de Dispersão: Quando Utilizar?</h2>
+        <div class="grid grid-cols-3 gap-6">
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <div class="text-purple-400 text-2xl mb-3"><i class="fa-solid fa-braille"></i></div>
+            <h3 class="text-lg font-bold text-white mb-2">Associação Numérica</h3>
+            <p class="text-slate-400 text-sm">Examina a relação ou correlação entre duas variáveis quantitativas contínuas.</p>
+          </div>
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <div class="text-purple-400 text-2xl mb-3"><i class="fa-solid fa-circle-dot"></i></div>
+            <h3 class="text-lg font-bold text-white mb-2">Identificação de Clusters</h3>
+            <p class="text-slate-400 text-sm">Permite visualmente identificar agrupamentos naturais de pontos nos dados.</p>
+          </div>
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <div class="text-purple-400 text-2xl mb-3"><i class="fa-solid fa-eye"></i></div>
+            <h3 class="text-lg font-bold text-white mb-2">Detecção de Outliers</h3>
+            <p class="text-slate-400 text-sm">Pontos distantes do grupo principal são facilmente identificados.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 12: Dispersão - Código -->
+    <div class="slide-card" id="slide-12">
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-purple-400 font-bold text-xs uppercase tracking-wider">03. Correlação & Relação</span>
+          <span class="text-slate-500 text-xs font-semibold">Código Python</span>
+        </div>
+        <h2 class="text-3xl font-extrabold text-white mb-4">Como Criar com Seaborn & Matplotlib</h2>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+          <pre class="text-sm text-slate-200 leading-relaxed"><code><span class="text-purple-400">import</span> matplotlib.pyplot <span class="text-purple-400">as</span> plt
+<span class="text-purple-400">import</span> seaborn <span class="text-purple-400">as</span> sns
+
+df_tips = sns.load_dataset(<span class="text-emerald-300">"tips"</span>)
+fig, ax = plt.subplots(figsize=(<span class="text-amber-300">8</span>, <span class="text-amber-300">4</span>))
+
+<span class="text-slate-500"># Scatter plot + Linha de Regressão</span>
+sns.scatterplot(
+    data=df_tips, x=<span class="text-emerald-300">"total_bill"</span>, y=<span class="text-emerald-300">"tip"</span>,
+    hue=<span class="text-emerald-300">"time"</span>, alpha=<span class="text-amber-300">0.8</span>, ax=ax
+)
+sns.regplot(data=df_tips, x=<span class="text-emerald-300">"total_bill"</span>, y=<span class="text-emerald-300">"tip"</span>, scatter=<span class="text-purple-400">False</span>, color=<span class="text-emerald-300">"gray"</span>, ax=ax)
+
+ax.set_title(<span class="text-emerald-300">"Relação entre Valor da Conta e Gorjeta"</span>, fontweight=<span class="text-emerald-300">"bold"</span>)
+plt.tight_layout()
+plt.show()</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 13: Dispersão - Padronização dos Dados -->
+    <div class="slide-card" id="slide-13">
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-purple-400 font-bold text-xs uppercase tracking-wider">03. Correlação & Relação</span>
+          <span class="text-slate-500 text-xs font-semibold">Padronização de Dados</span>
+        </div>
+        <h2 class="text-3xl font-extrabold text-white mb-6">Como Padronizar os Dados para Dispersão</h2>
+        <div class="grid grid-cols-2 gap-6">
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <h3 class="font-bold text-purple-400 mb-3 text-lg"><i class="fa-solid fa-filter mr-2"></i>Tratamento de Valores Ausentes (NaN)</h3>
+            <p class="text-slate-300 text-sm mb-3">Linhas contendo valores <strong class="text-amber-300">NaN</strong> (<em>Not a Number</em> / nulos) devem ser tratadas previamente.</p>
+            <div class="bg-slate-900 p-3 rounded border border-slate-800 text-xs font-mono text-emerald-300">
+              df_clean = df.dropna(subset=['var_x', 'var_y'])
+            </div>
+          </div>
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <h3 class="font-bold text-purple-400 mb-3 text-lg"><i class="fa-solid fa-sliders mr-2"></i>Controle de Sobreposição (Overplotting)</h3>
+            <p class="text-slate-300 text-sm">Se houver milhares de pontos sobrepostos, utilize a transparência <code class="text-amber-300">alpha=0.3</code>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== GRÁFICO 4: HISTOGRAMA & KDE ==================== -->
+    <!-- SLIDE 14: Histograma - Exemplo Visual -->
+    <div class="slide-card" id="slide-14">
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-amber-400 font-bold text-xs uppercase tracking-wider">04. Distribuição Numérica</span>
+          <span class="text-slate-500 text-xs font-semibold">Exemplo Visual</span>
+        </div>
+        <h2 class="text-3xl font-extrabold text-white mb-4">Histograma & KDE: Exemplo Visual</h2>
+        <div class="flex gap-8 items-center">
+          <div class="w-1/2 h-[380px] rounded-xl overflow-hidden border border-slate-700 bg-slate-900/90 p-4 flex flex-col justify-center items-center">
+            <svg viewBox="0 0 500 300" class="w-full h-full text-amber-400" xmlns="http://www.w3.org/2000/svg">
+              <line x1="50" y1="250" x2="470" y2="250" stroke="#475569" stroke-width="2"/>
+              <line x1="50" y1="30" x2="50" y2="250" stroke="#475569" stroke-width="2"/>
+              <rect x="70" y="210" width="30" height="40" fill="#f59e0b" opacity="0.7"/>
+              <rect x="110" y="170" width="30" height="80" fill="#f59e0b" opacity="0.7"/>
+              <rect x="150" y="120" width="30" height="130" fill="#f59e0b" opacity="0.7"/>
+              <rect x="190" y="60" width="30" height="190" fill="#f59e0b" opacity="0.7"/>
+              <rect x="230" y="80" width="30" height="170" fill="#f59e0b" opacity="0.7"/>
+              <rect x="270" y="130" width="30" height="120" fill="#f59e0b" opacity="0.7"/>
+              <rect x="310" y="180" width="30" height="70" fill="#f59e0b" opacity="0.7"/>
+              <rect x="350" y="220" width="30" height="30" fill="#f59e0b" opacity="0.7"/>
+              <path d="M 60 235 Q 110 190, 160 130 T 205 55 T 250 85 T 300 145 T 380 235" fill="none" stroke="#fbbf24" stroke-width="3"/>
+            </svg>
+          </div>
+          <div class="w-1/2 space-y-4">
+            <div class="bg-slate-800/40 p-4 rounded-xl border border-slate-700/50">
+              <h4 class="font-bold text-white mb-1"><i class="fa-solid fa-check text-amber-400 mr-2"></i>Intervalos de Bins</h4>
+              <p class="text-slate-400 text-sm">Barras agrupam valores em faixas de mesma largura.</p>
+            </div>
+            <div class="bg-slate-800/40 p-4 rounded-xl border border-slate-700/50">
+              <h4 class="font-bold text-white mb-1"><i class="fa-solid fa-check text-amber-400 mr-2"></i>Curva KDE Sobreposta</h4>
+              <p class="text-slate-400 text-sm"><strong class="text-amber-300">KDE</strong> (<em>Kernel Density Estimation</em> / Estimativa de Densidade de Kernel) suaviza os picos do histograma.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 15: Histograma - Utilização -->
+    <div class="slide-card" id="slide-15">
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-amber-400 font-bold text-xs uppercase tracking-wider">04. Distribuição Numérica</span>
+          <span class="text-slate-500 text-xs font-semibold">Histograma & KDE</span>
+        </div>
+        <h2 class="text-3xl font-extrabold text-white mb-6">Histograma & KDE: Quando Utilizar?</h2>
+        <div class="grid grid-cols-3 gap-6">
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <div class="text-amber-400 text-2xl mb-3"><i class="fa-solid fa-chart-simple"></i></div>
+            <h3 class="text-lg font-bold text-white mb-2">Frequência de Dados</h3>
+            <p class="text-slate-400 text-sm">Mostra como as observações se distribuem em intervalos contínuos (<code class="text-amber-300">bins</code>).</p>
+          </div>
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <div class="text-amber-400 text-2xl mb-3"><i class="fa-solid fa-wave-square"></i></div>
+            <h3 class="text-lg font-bold text-white mb-2">Densidade Suave (KDE)</h3>
+            <p class="text-slate-400 text-sm">O <strong class="text-amber-300">KDE</strong> (<em>Kernel Density Estimation</em>) calcula uma estimativa da função de probabilidade contínua.</p>
+          </div>
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <div class="text-amber-400 text-2xl mb-3"><i class="fa-solid fa-shapes"></i></div>
+            <h3 class="text-lg font-bold text-white mb-2">Análise de Assimetria</h3>
+            <p class="text-slate-400 text-sm">Permite checar se a distribuição é normal, simétrica ou possui caudas longas.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 16: Histograma - Código -->
+    <div class="slide-card" id="slide-16">
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-amber-400 font-bold text-xs uppercase tracking-wider">04. Distribuição Numérica</span>
+          <span class="text-slate-500 text-xs font-semibold">Código Python</span>
+        </div>
+        <h2 class="text-3xl font-extrabold text-white mb-4">Como Criar com Seaborn & Matplotlib</h2>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+          <pre class="text-sm text-slate-200 leading-relaxed"><code><span class="text-purple-400">import</span> matplotlib.pyplot <span class="text-purple-400">as</span> plt
+<span class="text-purple-400">import</span> seaborn <span class="text-purple-400">as</span> sns
+
+df_tips = sns.load_dataset(<span class="text-emerald-300">"tips"</span>)
+fig, ax = plt.subplots(figsize=(<span class="text-amber-300">8</span>, <span class="text-amber-300">4</span>))
+
+<span class="text-slate-500"># Histograma com curva KDE (Kernel Density Estimation)</span>
+sns.histplot(
+    data=df_tips, x=<span class="text-emerald-300">"total_bill"</span>,
+    bins=<span class="text-amber-300">15</span>, kde=<span class="text-purple-400">True</span>,
+    color=<span class="text-emerald-300">"#2563eb"</span>, ax=ax
+)
+
+ax.set_title(<span class="text-emerald-300">"Distribuição dos Valores das Contas"</span>, fontweight=<span class="text-emerald-300">"bold"</span>)
+plt.tight_layout()
+plt.show()</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 17: Histograma - Padronização dos Dados -->
+    <div class="slide-card" id="slide-17">
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-amber-400 font-bold text-xs uppercase tracking-wider">04. Distribuição Numérica</span>
+          <span class="text-slate-500 text-xs font-semibold">Padronização de Dados</span>
+        </div>
+        <h2 class="text-3xl font-extrabold text-white mb-6">Como Padronizar os Dados para Histogramas</h2>
+        <div class="grid grid-cols-2 gap-6">
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <h3 class="font-bold text-amber-400 mb-3 text-lg"><i class="fa-solid fa-sliders mr-2"></i>Ajuste Fino de Bins</h3>
+            <p class="text-slate-300 text-sm mb-2">A quantidade de bins é crucial: poucos bins escondem a forma, muitos geram ruído.</p>
+          </div>
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <h3 class="font-bold text-amber-400 mb-3 text-lg"><i class="fa-solid fa-percent mr-2"></i>Normalização da Escala</h3>
+            <p class="text-slate-300 text-sm mb-2">Utilize <code class="text-amber-300">stat="density"</code> ou <code class="text-amber-300">stat="percent"</code> para comparar amostras de tamanhos diferentes.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== GRÁFICO 5: BOXPLOT & VIOLIN ==================== -->
+    <!-- SLIDE 18: Boxplot - Exemplo Visual -->
+    <div class="slide-card" id="slide-18">
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-pink-400 font-bold text-xs uppercase tracking-wider">05. Variabilidade & Outliers</span>
+          <span class="text-slate-500 text-xs font-semibold">Exemplo Visual</span>
+        </div>
+        <h2 class="text-3xl font-extrabold text-white mb-4">Boxplot: Exemplo Visual</h2>
+        <div class="flex gap-8 items-center">
+          <div class="w-1/2 h-[380px] rounded-xl overflow-hidden border border-slate-700 bg-slate-900/90 p-4 flex flex-col justify-center items-center">
+            <svg viewBox="0 0 500 300" class="w-full h-full text-pink-400" xmlns="http://www.w3.org/2000/svg">
+              <line x1="50" y1="250" x2="470" y2="250" stroke="#475569" stroke-width="2"/>
+              <line x1="50" y1="30" x2="50" y2="250" stroke="#475569" stroke-width="2"/>
+              <g transform="translate(150, 0)">
+                <line x1="0" y1="60" x2="0" y2="210" stroke="#f472b6" stroke-width="2"/>
+                <line x1="-15" y1="60" x2="15" y2="60" stroke="#f472b6" stroke-width="2"/>
+                <line x1="-15" y1="210" x2="15" y2="210" stroke="#f472b6" stroke-width="2"/>
+                <rect x="-35" y="90" width="70" height="90" fill="#ec4899" opacity="0.6" stroke="#f472b6" stroke-width="2" rx="4"/>
+                <line x1="-35" y1="130" x2="35" y2="130" stroke="#ffffff" stroke-width="3"/>
+                <circle cx="0" cy="40" r="5" fill="#f472b6"/>
+              </g>
+              <g transform="translate(330, 0)">
+                <line x1="0" y1="80" x2="0" y2="230" stroke="#f472b6" stroke-width="2"/>
+                <line x1="-15" y1="80" x2="15" y2="80" stroke="#f472b6" stroke-width="2"/>
+                <line x1="-15" y1="230" x2="15" y2="230" stroke="#f472b6" stroke-width="2"/>
+                <rect x="-35" y="110" width="70" height="80" fill="#ec4899" opacity="0.6" stroke="#f472b6" stroke-width="2" rx="4"/>
+                <line x1="-35" y1="150" x2="35" y2="150" stroke="#ffffff" stroke-width="3"/>
+              </g>
+            </svg>
+          </div>
+          <div class="w-1/2 space-y-4">
+            <div class="bg-slate-800/40 p-4 rounded-xl border border-slate-700/50">
+              <h4 class="font-bold text-white mb-1"><i class="fa-solid fa-check text-pink-400 mr-2"></i>Caixa Central (IQR)</h4>
+              <p class="text-slate-400 text-sm">O <strong class="text-pink-300">IQR</strong> (<em>Interquartile Range</em> / Intervalo Interquartil: $Q_3 - Q_1$) engloba 50% centrais dos dados.</p>
+            </div>
+            <div class="bg-slate-800/40 p-4 rounded-xl border border-slate-700/50">
+              <h4 class="font-bold text-white mb-1"><i class="fa-solid fa-check text-pink-400 mr-2"></i>Linha da Mediana</h4>
+              <p class="text-slate-400 text-sm">Indica a metade exata da amostragem ordenada.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 19: Boxplot - Utilização -->
+    <div class="slide-card" id="slide-19">
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-pink-400 font-bold text-xs uppercase tracking-wider">05. Variabilidade & Outliers</span>
+          <span class="text-slate-500 text-xs font-semibold">Boxplot & Violin</span>
+        </div>
+        <h2 class="text-3xl font-extrabold text-white mb-6">Boxplot & Violin Plot: Quando Utilizar?</h2>
+        <div class="grid grid-cols-3 gap-6">
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <div class="text-pink-400 text-2xl mb-3"><i class="fa-solid fa-box-archive"></i></div>
+            <h3 class="text-lg font-bold text-white mb-2">Resumo Estatístico</h3>
+            <p class="text-slate-400 text-sm">Exibe Mediana, Quartis ($Q_1$ e $Q_3$) e a amplitude <strong class="text-pink-300">IQR</strong> em uma caixa.</p>
+          </div>
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <div class="text-pink-400 text-2xl mb-3"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <h3 class="text-lg font-bold text-white mb-2">Identificação de Outliers</h3>
+            <p class="text-slate-400 text-sm">Valores discrepantes fora dos "bigodes" (whiskers) são destacados individualmente.</p>
+          </div>
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <div class="text-pink-400 text-2xl mb-3"><i class="fa-solid fa-guitar"></i></div>
+            <h3 class="text-lg font-bold text-white mb-2">Violin: Densidade Categórica</h3>
+            <p class="text-slate-400 text-sm">O Violin plot adiciona a estimativa de densidade contínua ao redor da caixa estatística.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 20: Boxplot - Código -->
+    <div class="slide-card" id="slide-20">
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-pink-400 font-bold text-xs uppercase tracking-wider">05. Variabilidade & Outliers</span>
+          <span class="text-slate-500 text-xs font-semibold">Código Python</span>
+        </div>
+        <h2 class="text-3xl font-extrabold text-white mb-4">Como Criar com Seaborn & Matplotlib</h2>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+          <pre class="text-sm text-slate-200 leading-relaxed"><code><span class="text-purple-400">import</span> matplotlib.pyplot <span class="text-purple-400">as</span> plt
+<span class="text-purple-400">import</span> seaborn <span class="text-purple-400">as</span> sns
+
+df_tips = sns.load_dataset(<span class="text-emerald-300">"tips"</span>)
+fig, ax = plt.subplots(figsize=(<span class="text-amber-300">8</span>, <span class="text-amber-300">4</span>))
+
+<span class="text-slate-500"># Boxplot por categoria (caixa IQR e mediana)</span>
+sns.boxplot(
+    data=df_tips, x=<span class="text-emerald-300">"day"</span>, y=<span class="text-emerald-300">"total_bill"</span>,
+    palette=<span class="text-emerald-300">"Pastel1"</span>, ax=ax
+)
+
+ax.set_title(<span class="text-emerald-300">"Dispersão do Valor da Conta por Dia"</span>, fontweight=<span class="text-emerald-300">"bold"</span>)
+plt.tight_layout()
+plt.show()</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 21: Boxplot - Padronização dos Dados -->
+    <div class="slide-card" id="slide-21">
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-pink-400 font-bold text-xs uppercase tracking-wider">05. Variabilidade & Outliers</span>
+          <span class="text-slate-500 text-xs font-semibold">Padronização de Dados</span>
+        </div>
+        <h2 class="text-3xl font-extrabold text-white mb-6">Como Padronizar os Dados para Boxplot</h2>
+        <div class="grid grid-cols-2 gap-6">
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <h3 class="font-bold text-pink-400 mb-3 text-lg"><i class="fa-solid fa-list-check mr-2"></i>Eixo Categórico x Contínuo</h3>
+            <p class="text-slate-300 text-sm mb-2">Defina a variável categórica em X e a numérica em Y. Não necessita de normalização prévia.</p>
+          </div>
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <h3 class="font-bold text-pink-400 mb-3 text-lg"><i class="fa-solid fa-square-half-stroke mr-2"></i>Divisão no Violin Plot</h3>
+            <p class="text-slate-300 text-sm mb-2">No Violin plot, ao comparar subgrupos binários, utilize <code class="text-amber-300">split=True</code> para otimizar a visualização.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== GRÁFICO 6: HEATMAP ==================== -->
+    <!-- SLIDE 22: Heatmap - Exemplo Visual -->
+    <div class="slide-card" id="slide-22">
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-cyan-400 font-bold text-xs uppercase tracking-wider">06. Matrizes & Correlação</span>
+          <span class="text-slate-500 text-xs font-semibold">Exemplo Visual</span>
+        </div>
+        <h2 class="text-3xl font-extrabold text-white mb-4">Heatmap: Exemplo Visual</h2>
+        <div class="flex gap-8 items-center">
+          <div class="w-1/2 h-[380px] rounded-xl overflow-hidden border border-slate-700 bg-slate-900/90 p-4 flex flex-col justify-center items-center">
+            <svg viewBox="0 0 500 300" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+              <g transform="translate(100, 30)">
+                <rect x="0" y="0" width="70" height="70" fill="#1e3a8a" stroke="#0f172a" stroke-width="2"/>
+                <text x="35" y="42" fill="#ffffff" font-size="14" text-anchor="middle">1.00</text>
+                
+                <rect x="70" y="0" width="70" height="70" fill="#3b82f6" stroke="#0f172a" stroke-width="2"/>
+                <text x="105" y="42" fill="#ffffff" font-size="14" text-anchor="middle">0.68</text>
+                
+                <rect x="140" y="0" width="70" height="70" fill="#ef4444" stroke="#0f172a" stroke-width="2"/>
+                <text x="175" y="42" fill="#ffffff" font-size="14" text-anchor="middle">-0.45</text>
+
+                <rect x="0" y="70" width="70" height="70" fill="#3b82f6" stroke="#0f172a" stroke-width="2"/>
+                <text x="35" y="112" fill="#ffffff" font-size="14" text-anchor="middle">0.68</text>
+
+                <rect x="70" y="70" width="70" height="70" fill="#1e3a8a" stroke="#0f172a" stroke-width="2"/>
+                <text x="105" y="112" fill="#ffffff" font-size="14" text-anchor="middle">1.00</text>
+
+                <rect x="140" y="70" width="70" height="70" fill="#f87171" stroke="#0f172a" stroke-width="2"/>
+                <text x="175" y="112" fill="#ffffff" font-size="14" text-anchor="middle">-0.20</text>
+
+                <rect x="0" y="140" width="70" height="70" fill="#ef4444" stroke="#0f172a" stroke-width="2"/>
+                <text x="35" y="182" fill="#ffffff" font-size="14" text-anchor="middle">-0.45</text>
+
+                <rect x="70" y="140" width="70" height="70" fill="#f87171" stroke="#0f172a" stroke-width="2"/>
+                <text x="105" y="182" fill="#ffffff" font-size="14" text-anchor="middle">-0.20</text>
+
+                <rect x="140" y="140" width="70" height="70" fill="#1e3a8a" stroke="#0f172a" stroke-width="2"/>
+                <text x="175" y="182" fill="#ffffff" font-size="14" text-anchor="middle">1.00</text>
+              </g>
+            </svg>
+          </div>
+          <div class="w-1/2 space-y-4">
+            <div class="bg-slate-800/40 p-4 rounded-xl border border-slate-700/50">
+              <h4 class="font-bold text-white mb-1"><i class="fa-solid fa-check text-cyan-400 mr-2"></i>Paleta Divergente</h4>
+              <p class="text-slate-400 text-sm">Cores opostas indicam correlações positivas vs negativas em matrizes <strong class="text-cyan-300">2D</strong>.</p>
+            </div>
+            <div class="bg-slate-800/40 p-4 rounded-xl border border-slate-700/50">
+              <h4 class="font-bold text-white mb-1"><i class="fa-solid fa-check text-cyan-400 mr-2"></i>Anotações Numéricas</h4>
+              <p class="text-slate-400 text-sm">Exibição opcional dos valores exatos dentro de cada célula.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 23: Heatmap - Utilização -->
+    <div class="slide-card" id="slide-23">
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-cyan-400 font-bold text-xs uppercase tracking-wider">06. Matrizes & Correlação</span>
+          <span class="text-slate-500 text-xs font-semibold">Heatmap</span>
+        </div>
+        <h2 class="text-3xl font-extrabold text-white mb-6">Heatmap: Quando Utilizar?</h2>
+        <div class="grid grid-cols-3 gap-6">
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <div class="text-cyan-400 text-2xl mb-3"><i class="fa-solid fa-border-all"></i></div>
+            <h3 class="text-lg font-bold text-white mb-2">Matrizes 2D</h3>
+            <p class="text-slate-400 text-sm">Exibe dados tabulares <strong class="text-cyan-300">2D</strong> (Bidimensionais) através de gradientes de cor.</p>
+          </div>
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <div class="text-cyan-400 text-2xl mb-3"><i class="fa-solid fa-network-wired"></i></div>
+            <h3 class="text-lg font-bold text-white mb-2">Matriz de Correlação</h3>
+            <p class="text-slate-400 text-sm">Visualização rápida de coeficientes de correlação entre dezenas de colunas numéricas.</p>
+          </div>
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <div class="text-cyan-400 text-2xl mb-3"><i class="fa-solid fa-fire"></i></div>
+            <h3 class="text-lg font-bold text-white mb-2">Densidade Cruzada</h3>
+            <p class="text-slate-400 text-sm">Ideal para tabelas de pivô (<code class="text-amber-300">pivot_table</code>) com duas variáveis nas margens.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 24: Heatmap - Código -->
+    <div class="slide-card" id="slide-24">
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-cyan-400 font-bold text-xs uppercase tracking-wider">06. Matrizes & Correlação</span>
+          <span class="text-slate-500 text-xs font-semibold">Código Python</span>
+        </div>
+        <h2 class="text-3xl font-extrabold text-white mb-4">Como Criar com Seaborn & Matplotlib</h2>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+          <pre class="text-sm text-slate-200 leading-relaxed"><code><span class="text-purple-400">import</span> matplotlib.pyplot <span class="text-purple-400">as</span> plt
+<span class="text-purple-400">import</span> seaborn <span class="text-purple-400">as</span> sns
+
+df_tips = sns.load_dataset(<span class="text-emerald-300">"tips"</span>)
+matriz_corr = df_tips.corr(numeric_only=<span class="text-purple-400">True</span>)
+
+fig, ax = plt.subplots(figsize=(<span class="text-amber-300">8</span>, <span class="text-amber-300">4</span>))
+
+<span class="text-slate-500"># Heatmap da matriz de correlação 2D</span>
+sns.heatmap(
+    matriz_corr, annot=<span class="text-purple-400">True</span>, fmt=<span class="text-emerald-300">".2f"</span>,
+    cmap=<span class="text-emerald-300">"coolwarm"</span>, linewidths=<span class="text-amber-300">.5</span>, ax=ax
+)
+
+ax.set_title(<span class="text-emerald-300">"Matriz de Correlação Numérica"</span>, fontweight=<span class="text-emerald-300">"bold"</span>)
+plt.tight_layout()
+plt.show()</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 25: Heatmap - Padronização dos Dados -->
+    <div class="slide-card" id="slide-25">
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-cyan-400 font-bold text-xs uppercase tracking-wider">06. Matrizes & Correlação</span>
+          <span class="text-slate-500 text-xs font-semibold">Padronização de Dados</span>
+        </div>
+        <h2 class="text-3xl font-extrabold text-white mb-6">Como Padronizar os Dados para Heatmap</h2>
+        <div class="grid grid-cols-2 gap-6">
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <h3 class="font-bold text-cyan-400 mb-3 text-lg"><i class="fa-solid fa-table-cells-large mr-2"></i>Entrada em Formato de Matriz 2D</h3>
+            <p class="text-slate-300 text-sm mb-3">O Heatmap necessita de uma matriz bidimensional (ex: <code class="text-amber-300">df.corr()</code> ou resultado de <code class="text-amber-300">df.pivot_table()</code>).</p>
+            <div class="bg-slate-900 p-3 rounded border border-slate-800 text-xs font-mono text-emerald-300">
+              pivo = df.pivot_table(index='mês', columns='ano', values='vendas')
+            </div>
+          </div>
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <h3 class="font-bold text-cyan-400 mb-3 text-lg"><i class="fa-solid fa-palette mr-2"></i>Paleta de Cores Adequada</h3>
+            <p class="text-slate-300 text-sm">Paletas divergentes (<code class="text-amber-300">coolwarm</code>) para correlação e sequenciais (<code class="text-amber-300">Blues</code>, <code class="text-amber-300">viridis</code>) para volumes acumulados.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== GRÁFICO 7: PIZZA & ROSCA ==================== -->
+    <!-- SLIDE 26: Pizza - Exemplo Visual -->
+    <div class="slide-card" id="slide-26">
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-orange-400 font-bold text-xs uppercase tracking-wider">07. Proporção & Composição</span>
+          <span class="text-slate-500 text-xs font-semibold">Exemplo Visual</span>
+        </div>
+        <h2 class="text-3xl font-extrabold text-white mb-4">Gráfico de Pizza / Rosca: Exemplo Visual</h2>
+        <div class="flex gap-8 items-center">
+          <div class="w-1/2 h-[380px] rounded-xl overflow-hidden border border-slate-700 bg-slate-900/90 p-4 flex flex-col justify-center items-center">
+            <svg viewBox="0 0 400 300" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+              <g transform="translate(200, 150)">
+                <!-- Slice 1: 40% (144 deg) -->
+                <path d="M 0 0 L 0 -110 A 110 110 0 0 1 89 64 Z" fill="#f97316"/>
+                <!-- Slice 2: 30% (108 deg) -->
+                <path d="M 0 0 L 89 64 A 110 110 0 0 1 -104 34 Z" fill="#3b82f6"/>
+                <!-- Slice 3: 20% (72 deg) -->
+                <path d="M 0 0 L -104 34 A 110 110 0 0 1 -64 -89 Z" fill="#10b981"/>
+                <!-- Slice 4: 10% (36 deg) -->
+                <path d="M 0 0 L -64 -89 A 110 110 0 0 1 0 -110 Z" fill="#a855f7"/>
+                <!-- Hole for Donut chart effect -->
+                <circle cx="0" cy="0" r="45" fill="#0f172a"/>
+                <text x="0" y="5" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">Proporção</text>
+              </g>
+            </svg>
+          </div>
+          <div class="w-1/2 space-y-4">
+            <div class="bg-slate-800/40 p-4 rounded-xl border border-slate-700/50">
+              <h4 class="font-bold text-white mb-1"><i class="fa-solid fa-check text-orange-400 mr-2"></i>Partes para o Todo</h4>
+              <p class="text-slate-400 text-sm">Cada fatia representa uma porcentagem ($100\%$ no total acumulado).</p>
+            </div>
+            <div class="bg-slate-800/40 p-4 rounded-xl border border-slate-700/50">
+              <h4 class="font-bold text-white mb-1"><i class="fa-solid fa-check text-orange-400 mr-2"></i>Rótulos e Porcentagens</h4>
+              <p class="text-slate-400 text-sm">Exibição de rótulos claros com o argumento <code class="text-amber-300">autopct='%1.1f%%'</code>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 27: Pizza - Utilização -->
+    <div class="slide-card" id="slide-27">
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-orange-400 font-bold text-xs uppercase tracking-wider">07. Proporção & Composição</span>
+          <span class="text-slate-500 text-xs font-semibold">Gráfico de Pizza</span>
+        </div>
+        <h2 class="text-3xl font-extrabold text-white mb-6">Gráfico de Pizza: Quando Utilizar?</h2>
+        <div class="grid grid-cols-3 gap-6">
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <div class="text-orange-400 text-2xl mb-3"><i class="fa-solid fa-chart-pie"></i></div>
+            <h3 class="text-lg font-bold text-white mb-2">Composição Relativa</h3>
+            <p class="text-slate-400 text-sm">Ideal para mostrar a participação percentual das partes que compõem um total ($100\%$).</p>
+          </div>
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <div class="text-orange-400 text-2xl mb-3"><i class="fa-solid fa-filter"></i></div>
+            <h3 class="text-lg font-bold text-white mb-2">Poucas Categorias ($\le 5$)</h3>
+            <p class="text-slate-400 text-sm">Funciona bem apenas quando há de **2 a 5 categorias** bem diferenciadas.</p>
+          </div>
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <div class="text-orange-400 text-2xl mb-3"><i class="fa-solid fa-circle-dot"></i></div>
+            <h3 class="text-lg font-bold text-white mb-2">Variação de Rosca (Donut)</h3>
+            <p class="text-slate-400 text-sm">Adicionar um círculo no centro (<code class="text-amber-300">wedgeprops</code>) melhora a estética e reduz o ruído visual.</p>
+          </div>
+        </div>
+      </div>
+      <div class="bg-orange-950/40 border border-orange-800/40 p-4 rounded-xl text-orange-200 text-sm flex items-center gap-3">
+        <i class="fa-solid fa-circle-exclamation text-orange-400 text-lg"></i>
+        <span><strong>Atenção:</strong> Evite utilizar gráficos de pizza quando houver mais de 5 categorias ou quando os valores forem muito próximos. Nestes casos, prefira um gráfico de barras.</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 28: Pizza - Código -->
+    <div class="slide-card" id="slide-28">
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-orange-400 font-bold text-xs uppercase tracking-wider">07. Proporção & Composição</span>
+          <span class="text-slate-500 text-xs font-semibold">Código Python (Matplotlib)</span>
+        </div>
+        <h2 class="text-3xl font-extrabold text-white mb-4">Como Criar com Matplotlib</h2>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+          <pre class="text-sm text-slate-200 leading-relaxed"><code><span class="text-purple-400">import</span> matplotlib.pyplot <span class="text-purple-400">as</span> plt
+<span class="text-purple-400">import</span> seaborn <span class="text-purple-400">as</span> sns
+
+valores = [<span class="text-amber-300">40</span>, <span class="text-amber-300">30</span>, <span class="text-amber-300">20</span>, <span class="text-amber-300">10</span>]
+categorias = [<span class="text-emerald-300">"Produto A"</span>, <span class="text-emerald-300">"Produto B"</span>, <span class="text-emerald-300">"Produto C"</span>, <span class="text-emerald-300">"Outros"</span>]
+cores = sns.color_palette(<span class="text-emerald-300">"Set2"</span>)
+
+fig, ax = plt.subplots(figsize=(<span class="text-amber-300">6</span>, <span class="text-amber-300">6</span>))
+
+<span class="text-slate-500"># Gráfico de Pizza / Rosca nativo do Matplotlib</span>
+ax.pie(
+    valores, labels=categorias, autopct=<span class="text-emerald-300">"%1.1f%%"</span>,
+    startangle=<span class="text-amber-300">90</span>, colors=cores,
+    wedgeprops=dict(width=<span class="text-amber-300">0.6</span>, edgecolor=<span class="text-emerald-300">"white"</span>) <span class="text-slate-500"># Rosca</span>
+)
+
+ax.set_title(<span class="text-emerald-300">"Distribuição de Vendas por Categoria"</span>, fontweight=<span class="text-emerald-300">"bold"</span>)
+plt.tight_layout()
+plt.show()</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 29: Pizza - Padronização dos Dados -->
+    <div class="slide-card" id="slide-29">
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-orange-400 font-bold text-xs uppercase tracking-wider">07. Proporção & Composição</span>
+          <span class="text-slate-500 text-xs font-semibold">Padronização de Dados</span>
+        </div>
+        <h2 class="text-3xl font-extrabold text-white mb-6">Como Padronizar os Dados para Pizza</h2>
+        <div class="grid grid-cols-2 gap-6">
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <h3 class="font-bold text-orange-400 mb-3 text-lg"><i class="fa-solid fa-list-ol mr-2"></i>Agrupamento e Consolidação</h3>
+            <p class="text-slate-300 text-sm mb-3">Agrupe categorias menores em um grupo genérico ("Outros") com <code class="text-amber-300">df.groupby()</code> se houver mais de 5 itens.</p>
+          </div>
+          <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl">
+            <h3 class="font-bold text-orange-400 mb-3 text-lg"><i class="fa-solid fa-percent mr-2"></i>Soma Total = 100%</h3>
+            <p class="text-slate-300 text-sm mb-3">Garanta que a soma das fatias represente a totalidade dos dados sem sobreposição de categorias.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 30: CONCLUSÃO & GLOSSÁRIO DE SIGLAS -->
+    <div class="slide-card" id="slide-30">
+      <div class="py-4">
+        <p class="text-blue-400 font-bold uppercase tracking-widest text-xs mb-2 text-center">Resumo & Conceitos</p>
+        <h2 class="text-3xl font-extrabold text-white mb-4 text-center">Glossário de Siglas e Boas Práticas</h2>
+        
+        <!-- GLOSSÁRIO DE SIGLAS -->
+        <div class="bg-slate-800/60 border border-slate-700 p-4 rounded-xl mb-6 max-w-5xl mx-auto">
+          <h3 class="text-emerald-400 font-bold text-sm uppercase tracking-wider mb-3"><i class="fa-solid fa-book-bookmark mr-2"></i>Significado das Siglas Utilizadas</h3>
+          <div class="grid grid-cols-2 gap-x-8 gap-y-2 text-xs text-slate-300">
+            <div><strong class="text-amber-300">KDE (Kernel Density Estimation):</strong> Estimativa de Densidade de Kernel, uma função contínua que suaviza a distribuição dos dados.</div>
+            <div><strong class="text-pink-300">IQR (Interquartile Range):</strong> Intervalo Interquartil ($Q_3 - Q_1$), a amplitude ocupada pelos 50% centrais dos dados no Boxplot.</div>
+            <div><strong class="text-purple-300">NaN (Not a Number):</strong> Representação para valores nulos ou ausentes em tabelas e DataFrames.</div>
+            <div><strong class="text-cyan-300">2D (Bidimensional):</strong> Dados dispostos em formato de matriz com duas dimensões (linhas e colunas).</div>
+            <div><strong class="text-blue-300">DPI (Dots Per Inch):</strong> Pontos por polegada, parâmetro que define a resolução da imagem ao exportar (<code class="text-amber-300">dpi=300</code>).</div>
+            <div><strong class="text-emerald-300">Tidy Data:</strong> Formato padronizado de dados onde cada coluna representa uma variável e cada linha uma observação.</div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-4 gap-4 text-left max-w-5xl mx-auto">
+          <div class="bg-slate-800/40 border border-slate-700/60 p-4 rounded-xl">
+            <div class="text-blue-400 text-lg mb-1"><i class="fa-solid fa-table"></i></div>
+            <h4 class="font-bold text-white text-sm mb-1">1. Tidy Data</h4>
+            <p class="text-slate-400 text-xs">Variáveis em colunas e observações em linhas.</p>
+          </div>
+          <div class="bg-slate-800/40 border border-slate-700/60 p-4 rounded-xl">
+            <div class="text-emerald-400 text-lg mb-1"><i class="fa-solid fa-tag"></i></div>
+            <h4 class="font-bold text-white text-sm mb-1">2. Rótulos Claros</h4>
+            <p class="text-slate-400 text-xs">Título, unidades ($) e legenda visíveis.</p>
+          </div>
+          <div class="bg-slate-800/40 border border-slate-700/60 p-4 rounded-xl">
+            <div class="text-purple-400 text-lg mb-1"><i class="fa-solid fa-eye-dropper"></i></div>
+            <h4 class="font-bold text-white text-sm mb-1">3. Paleta com Contraste</h4>
+            <p class="text-slate-400 text-xs">Cores que diferenciam grupos claramente.</p>
+          </div>
+          <div class="bg-slate-800/40 border border-slate-700/60 p-4 rounded-xl">
+            <div class="text-amber-400 text-lg mb-1"><i class="fa-solid fa-crop-simple"></i></div>
+            <h4 class="font-bold text-white text-sm mb-1">4. Layout Limpo</h4>
+            <p class="text-slate-400 text-xs">Finalize com <code>plt.tight_layout()</code>.</p>
+          </div>
+        </div>
+      </div>
+      <div class="text-center text-slate-500 text-xs mt-2">
+        Fim da Apresentação • Matplotlib & Seaborn Cheat Sheet
+      </div>
+    </div>
+
+    <!-- CONTROLES DE NAVEGAÇÃO -->
+    <div class="flex items-center gap-4 mt-6">
+      <button class="nav-btn" id="prev-btn" onclick="changeSlide(-1)"><i class="fa-solid fa-chevron-left mr-2"></i>Anterior</button>
+      <span class="text-slate-400 font-bold text-sm" id="slide-indicator">Slide 1 de 30</span>
+      <button class="nav-btn" id="next-btn" onclick="changeSlide(1)">Próximo<i class="fa-solid fa-chevron-right ml-2"></i></button>
+    </div>
+
+  </div>
+
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 30;
+
+    function updateSlide() {
+      document.querySelectorAll('.slide-card').forEach((card, index) => {
+        card.classList.toggle('active', index + 1 === currentSlide);
+      });
+      document.getElementById('slide-indicator').innerText = `Slide ${currentSlide} de ${totalSlides}`;
+      document.getElementById('prev-btn').disabled = currentSlide === 1;
+      document.getElementById('next-btn').disabled = currentSlide === totalSlides;
+    }
+
+    function changeSlide(direction) {
+      currentSlide = Math.max(1, Math.min(totalSlides, currentSlide + direction));
+      updateSlide();
+    }
+
+    // Suporte às setas do teclado
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') changeSlide(-1);
+      if (e.key === 'ArrowRight') changeSlide(1);
+    });
+
+    updateSlide();
+  </script>
+</body>
+</html>
